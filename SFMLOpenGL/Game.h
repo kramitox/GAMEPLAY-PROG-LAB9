@@ -2,7 +2,8 @@
 #define GAME_H
 
 #include <Debug.h>
-
+#include <fstream>
+#include <sstream>
 #include <iostream>
 #include <GL/glew.h>
 #include <GL/wglew.h>
@@ -35,7 +36,6 @@ private:
 	Time elapsed;
 	
 	float rotationAngle = 0.0f;
-    
 };
 
 #endif

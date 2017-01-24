@@ -58,8 +58,7 @@ GLuint	index, //Index to draw
 void Game::initialize()
 {
 	isRunning = true;
-
-
+	
 	glewInit();
 
 	/* Vertices counter-clockwise winding */
@@ -126,6 +125,12 @@ void Game::initialize()
 	GLint isCompiled = 0;
 	GLint isLinked = 0;
 
+
+	// Read shaders
+	//std::string vertShaderStr = readFile(vertex_path);
+
+	//const char *vertShaderSrc = vertShaderStr.c_str();
+	
 	/* Create a new VBO using VBO id */
 	glGenBuffers(1, vbo);
 
@@ -142,14 +147,14 @@ void Game::initialize()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	/* Vertex Shader which would normally be loaded from an external file */
-	const char* vs_src = "#version 400\n\r"
-		"in vec4 sv_position;"
-		"in vec4 sv_color;"
-		"out vec4 color;"
-		"void main() {"
-		"	color = sv_color;"
-		"	gl_Position = sv_position;"
-		"}"; //Vertex Shader Src
+	ifstream vertexFile;
+	std::string vString;
+	std::stringstream vContent;
+	vertexFile.open("vertexShader.txt");
+	vContent << vertexFile.rdbuf();
+	vertexFile.close();
+	vString = vContent.str();
+	const char* vs_src = vString.c_str();
 
 	DEBUG_MSG("Setting Up Vertex Shader");
 
@@ -170,17 +175,22 @@ void Game::initialize()
 	}
 
 	/* Fragment Shader which would normally be loaded from an external file */
-	const char* fs_src = "#version 400\n\r"
-		"in vec4 color;"
-		"out vec4 fColor;"
-		"void main() {"
-		"	fColor = vec4(0.0f, 1.0f, 0.0f, 1.0f);"
-		"}"; //Fragment Shader Src
+
 
 	DEBUG_MSG("Setting Up Fragment Shader");
 
 	fsid = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fsid, 1, (const GLchar**)&fs_src, NULL);
+
+	ifstream fragFile;
+	std::string fString;
+	std::stringstream fContent;
+	fragFile.open("fragmentShader.txt");
+	fContent << fragFile.rdbuf();
+	fragFile.close();
+	fString = fContent.str();
+	const char* fs_src = fString.c_str();
+	
+	glShaderSource(fsid, 1, &fs_src, NULL);
 	glCompileShader(fsid);
 	//Check is Shader Compiled
 	glGetShaderiv(fsid, GL_COMPILE_STATUS, &isCompiled);
@@ -334,4 +344,3 @@ void Game::unload()
 	glDeleteProgram(progID);
 	glDeleteBuffers(1, vbo);
 }
-
