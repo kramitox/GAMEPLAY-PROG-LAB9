@@ -108,7 +108,7 @@ void Game::initialize()
 
 	//BACK FACE
 	triangles[6] = 4;   triangles[7] = 6;   triangles[8] = 7;
-	triangles[9] = 4;   triangles[10]= 5;  triangles[11]= 6;
+	triangles[9] = 5;   triangles[10]= 6;  triangles[11]= 4;
 	//TOP FACE
 	triangles[12] = 3;  triangles[13] = 2; triangles[14] = 6;
 	triangles[15] = 3;  triangles[16] = 6; triangles[17] = 7;
@@ -277,21 +277,21 @@ void Game::update()
 	{
 		if (vertex[i].coordinate[2] == 1.0f)
 		{
-			customVector::Vector3 tempVect(vertex[i].coordinate[0], vertex[i].coordinate[1], vertex[i].coordinate[2] - 0.5f);
-			tempVect.Equals(rotationX* tempVect);
-			tempVect.Equals(rotationY * tempVect);
-			vertex[i].coordinate[0] = tempVect.x;
-			vertex[i].coordinate[1] = tempVect.y;
-			vertex[i].coordinate[2] = tempVect.z + 0.5f;
-		}
-		else
-		{
 			customVector::Vector3 tempVect(vertex[i].coordinate[0], vertex[i].coordinate[1], vertex[i].coordinate[2] + 0.5f);
 			tempVect.Equals(rotationX* tempVect);
 			tempVect.Equals(rotationY * tempVect);
 			vertex[i].coordinate[0] = tempVect.x;
 			vertex[i].coordinate[1] = tempVect.y;
 			vertex[i].coordinate[2] = tempVect.z - 0.5f;
+		}
+		else
+		{
+			customVector::Vector3 tempVect(vertex[i].coordinate[0], vertex[i].coordinate[1], vertex[i].coordinate[2] - 0.5f);
+			tempVect.Equals(rotationX* tempVect);
+			tempVect.Equals(rotationY * tempVect);
+			vertex[i].coordinate[0] = tempVect.x;
+			vertex[i].coordinate[1] = tempVect.y;
+			vertex[i].coordinate[2] = tempVect.z + 0.5f;
 		}
 	}
 
